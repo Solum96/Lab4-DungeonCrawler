@@ -1,0 +1,8 @@
+Vad vi behöver göra:
+
+1. Vi behöver en spelarklass (counter, välja riktning, inventory)
+2. Rum-klass
+3. Karta (i form av en 2d-array)
+4. En Enum för tiles
+5. Ett interface för alla tilesen
+6. 

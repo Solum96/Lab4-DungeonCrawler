@@ -10,7 +10,7 @@ namespace Lab4_DungeonCrawler
     {
         static void Main(string[] args)
         {
-
+            
         }
     }
 }

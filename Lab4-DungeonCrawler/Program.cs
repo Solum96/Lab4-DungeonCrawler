@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Lab4_DungeonCrawler
 {
-    class Program
+    partial class Program
     {
         static void Main(string[] args)
         {
-            Map.CreateMapArray();
+            while (true)
+            {
+                Map.CreateMapArray();
+            }
         }
     }
 }

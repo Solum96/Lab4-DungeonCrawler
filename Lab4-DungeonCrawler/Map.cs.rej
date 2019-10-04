@@ -1,0 +1,9 @@
+diff a/Lab4-DungeonCrawler/Map.cs b/Lab4-DungeonCrawler/Map.cs	(rejected hunks)
+@@ -9,7 +9,6 @@
+         
+         public static char[,] mapArray = new char[,]
+         {
+-                {'#', '#', '#', '#', '#', '#', '#', '#', '#' },
+             {'#', '#', '#', '#', '#', '#', '#', '#', '#' },
+             {'#', '-', '-', '-', '-', '-', '-', '-', '#' },
+             {'#', '-', '-', '-', '-', '-', '-', '-', '#' },

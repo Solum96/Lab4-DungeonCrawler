@@ -10,7 +10,40 @@ namespace Lab4_DungeonCrawler
     {
         static void Main(string[] args)
         {
-            Map.CreateMapArray();
+            while (true)
+            {
+                for (int row = 0; row < Map.mapArray.GetLength(0); row++)
+                {
+                    for (int column = 0; column < Map.mapArray.GetLength(1); column++)
+                    {
+                        Console.Write(Map.mapArray[row, column]);
+                    }
+                    Console.WriteLine();
+                }
+                char move = Console.ReadKey().KeyChar;
+                switch (move)
+                {
+                    case 'w':
+                        Player.MovePlayer(Map.mapArray, -1, 0);
+                        break;
+
+                    case 'a':
+                        Player.MovePlayer(Map.mapArray, 0, -1);
+                        break;
+
+                    case 's':
+                        Player.MovePlayer(Map.mapArray, 1, 0);
+                        break;
+
+                    case 'd':
+                        Player.MovePlayer(Map.mapArray, 0, 1);
+                        break;
+
+                    default:
+                        break;
+                }
+                Console.Clear();
+            }
         }
     }
 }

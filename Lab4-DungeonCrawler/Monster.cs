@@ -10,10 +10,5 @@
             this.Damage = damage;
             this.Name = name;
         }
-
-        public int DoDamage()
-        {
-            return Damage;
-        }
     }
 }

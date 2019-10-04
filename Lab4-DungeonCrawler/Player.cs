@@ -33,6 +33,7 @@
             {
                 mapArray[rowIndex, columnIndex] = '-';
                 mapArray[rowIndex + y, columnIndex + x] = '@';
+                stepCounter++;
             }
         }
     }

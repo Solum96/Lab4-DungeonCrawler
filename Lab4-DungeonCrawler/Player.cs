@@ -2,11 +2,12 @@
 {
     internal class Player
     {
+        public static int stepCounter { get; set; }
         public Player()
         {
         }
 
-        public static void MovePlayer(char[,] mapArray, int y, int x)
+        public static void MovePlayer(char[,] mapArray, int y, int x, Monster monster)
         {
             int rowIndex = 0;
             int columnIndex = 0;
@@ -23,7 +24,12 @@
                 }
             }
 
-            if(mapArray[rowIndex + y, columnIndex + x] != '#')
+            if (Map.IsMonster(rowIndex + y, columnIndex + x) == true)
+            {
+                stepCounter += monster.Damage; 
+            }
+
+            if (mapArray[rowIndex + y, columnIndex + x] != '#')
             {
                 mapArray[rowIndex, columnIndex] = '-';
                 mapArray[rowIndex + y, columnIndex + x] = '@';

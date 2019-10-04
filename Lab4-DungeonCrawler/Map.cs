@@ -4,7 +4,6 @@ namespace Lab4_DungeonCrawler
 {
     internal class Map
     {
-
         public static char[,] mapArray = new char[,]
         {
             {'#', '#', '#', '#', '#', '#', '#', '#', '#' },
@@ -17,5 +16,11 @@ namespace Lab4_DungeonCrawler
             {'#', '-', '-', '-', '-', '-', '-', '-', '#' },
             {'#', '#', '#', '#', '#', '#', '#', '#', '#' }
         };
+
+        public static bool IsMonster(int y, int x)
+        {
+            if(mapArray[y,x] == 'M') { return true; }
+            else { return false; }
+        }
     }
 }

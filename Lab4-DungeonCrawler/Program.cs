@@ -10,6 +10,8 @@ namespace Lab4_DungeonCrawler
     {
         static void Main(string[] args)
         {
+            Player player = new Player();
+            Monster monster = new Monster(3, 'M');
             while (true)
             {
                 for (int row = 0; row < Map.mapArray.GetLength(0); row++)
@@ -24,19 +26,19 @@ namespace Lab4_DungeonCrawler
                 switch (move)
                 {
                     case 'w':
-                        Player.MovePlayer(Map.mapArray, -1, 0);
+                        Player.MovePlayer(Map.mapArray, -1, 0, monster);
                         break;
 
                     case 'a':
-                        Player.MovePlayer(Map.mapArray, 0, -1);
+                        Player.MovePlayer(Map.mapArray, 0, -1, monster);
                         break;
 
                     case 's':
-                        Player.MovePlayer(Map.mapArray, 1, 0);
+                        Player.MovePlayer(Map.mapArray, 1, 0, monster);
                         break;
 
                     case 'd':
-                        Player.MovePlayer(Map.mapArray, 0, 1);
+                        Player.MovePlayer(Map.mapArray, 0, 1, monster);
                         break;
 
                     default:

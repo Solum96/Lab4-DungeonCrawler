@@ -13,35 +13,29 @@ namespace Lab4_DungeonCrawler
             Player player = new Player();
             Monster monster = new Monster(3, 'M'); //DEVNOTE: temp monster
             Door doorOne = new Door();
+            DungeonMap map = new DungeonMap(4, 2, 0, 2);
 
             while (player.StepCounter <= 99)
             {
                 Console.WriteLine("Steps: " + player.StepCounter);
-                for (int row = 0; row < Map.mapArray.GetLength(0); row++)
-                {
-                    for (int column = 0; column < Map.mapArray.GetLength(1); column++)
-                    {
-                        Console.Write(Map.mapArray[row, column]);
-                    }
-                    Console.WriteLine();
-                }
+                MapRenderer.RenderMap()
                 char move = Console.ReadKey().KeyChar;
                 switch (move)
                 {
                     case 'w':
-                        player.MovePlayer(Map.mapArray, -1, 0, monster);
+                        player.MovePlayer(DungeonMap.MapArray, -1, 0, monster);
                         break;
 
                     case 'a':
-                        player.MovePlayer(Map.mapArray, 0, -1, monster);
+                        player.MovePlayer(DungeonMap.MapArray, 0, -1, monster);
                         break;
 
                     case 's':
-                        player.MovePlayer(Map.mapArray, 1, 0, monster);
+                        player.MovePlayer(DungeonMap.MapArray, 1, 0, monster);
                         break;
 
                     case 'd':
-                        player.MovePlayer(Map.mapArray, 0, 1, monster);
+                        player.MovePlayer(DungeonMap.MapArray, 0, 1, monster);
                         break;
 
                     default:

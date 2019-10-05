@@ -5,7 +5,7 @@ namespace Lab4_DungeonCrawler.GameObjects
     public class Player : GameObject
     {
         public override char Visual { get; set; } = '@';
-        public int StepCounter { get; set; }
+        public int StepCounter { get; set; } = 0;
         public bool HasKey { get; set; } = false;
 
         public Player(DungeonMap map, Point location):base(map, location)
@@ -13,37 +13,62 @@ namespace Lab4_DungeonCrawler.GameObjects
             Location = map.CurrentPlayerLocation;
         }
 
-        public void MovePlayer(MoveDelta moveDelta, Monster monster)
+        public string MovePlayer(MoveDelta moveDelta)
         {
-            Point futureLocation = new Point { Y = this.Location.Y + moveDelta.DeltaY, X = this.Location.X + moveDelta.DeltaX };
+            Point futureLocation = new Point (Location.X + moveDelta.DeltaX, Location.Y + moveDelta.DeltaY);
 
-            if (DungeonMap.IsDoor(futureLocation) && this.HasKey)
+            if (Map.IsDoor(futureLocation) && this.HasKey)
             {
-                DungeonMap.MovePlayerInMap(Location, futureLocation);
-                this.Location = futureLocation;
-                return;
-            }
-
-            if (DungeonMap.IsMonster(futureLocation))
-            {
-                DungeonMap.MovePlayerInMap(Location, futureLocation);
-                StepCounter += monster.Damage;
-                this.Location = futureLocation;
-                return;
-            }
-
-            if (DungeonMap.IsWall(futureLocation))
-            {
-                return;
-            }
-
-            if(DungeonMap.IsKey(futureLocation))
-            {
-                DungeonMap.MovePlayerInMap(Location, futureLocation);
-                HasKey = true;
+                Map.MovePlayerInMap(Location, futureLocation);
+                StepCounter++;
                 Location = futureLocation;
-                return;
+                HasKey = false;
+                Map.GenerateMap(Map.MapSize);
+                return "Used key on door.\r\nEntering new room.";
             }
+
+            if (Map.IsDoor(futureLocation) && !HasKey)
+            {
+                return "You don't have a key.";
+            }
+
+            if (Map.IsMonster(futureLocation))
+            {
+                var damage = (Map.GetGameObjectAt(futureLocation) as Monster).Damage;
+                StepCounter += damage;
+                Map.MovePlayerInMap(Location, futureLocation);
+
+                Location = futureLocation;
+                return $"Battle ensues! You lost (as always), and got punished with {damage} steps.";
+            }
+
+            if (Map.IsPrize(futureLocation))
+            {
+                var value = (Map.GetGameObjectAt(futureLocation) as Prize).Value;
+                StepCounter -= value;
+                StepCounter = StepCounter < 0 ? 0 : StepCounter;
+                Map.MovePlayerInMap(Location, futureLocation);
+                Location = futureLocation;
+                return $"Battle ensues! You lost (as always), and got punished with {value} steps.";
+            }
+
+            if (Map.IsWall(futureLocation))
+            {
+                return "Stop banging your head against the wall. It's not helping anyone.";
+            }
+
+            if (Map.IsKey(futureLocation))
+            {
+                Map.MovePlayerInMap(Location, futureLocation);
+                HasKey = true;
+                StepCounter++;
+                Location = futureLocation;
+                return "You found a key! Well done!";
+            }
+            Map.MovePlayerInMap(Location, futureLocation);
+            Location = futureLocation;
+            StepCounter++;
+            return "";
         }
     }
 }

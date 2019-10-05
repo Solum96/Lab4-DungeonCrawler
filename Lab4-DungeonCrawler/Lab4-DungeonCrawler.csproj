@@ -44,20 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game.cs" />
     <Compile Include="GameObjects\Door.cs" />
     <Compile Include="GameObjects\Floor.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
+    <Compile Include="GameObjects\Prize.cs" />
     <Compile Include="GameObjects\Wall.cs" />
-    <Compile Include="IObjectStatus.cs" />
     <Compile Include="GameObjects\Key.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="MapRenderer.cs" />
+    <Compile Include="Rendering\IMapRender.cs" />
+    <Compile Include="Rendering\GdiMapRenderer.cs" />
     <Compile Include="GameObjects\Monster.cs" />
     <Compile Include="MoveDelta.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameObjects\Trap.cs" />
+    <Compile Include="Rendering\TextMapRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

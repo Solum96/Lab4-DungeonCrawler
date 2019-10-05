@@ -19,7 +19,7 @@ namespace Lab4_DungeonCrawler
         int NumberOfTraps { get; set; } = 8;
         int NumberOfDoors { get; set; } = 2;
 
-        public Coordinate FindStartLocation
+        public Coordinate CurrentPlayerLocation
         {
             get
             {
@@ -50,16 +50,9 @@ namespace Lab4_DungeonCrawler
             {'#', '#', '#', '#', '#', '#', '#', '#', '#'}
         };
 
-        public bool IsMonster(int y, int x)
-        {
-            if (mapArray[y, x] == 'M') { return true; }
-            else { return false; }
-        }
+        public bool IsMonster(Coordinate coordinate) => mapArray[coordinate.RowIndex, coordinate.ColumnIndex] == 'M';
+        public bool IsDoor(Coordinate coordinate) => mapArray[coordinate.RowIndex, coordinate.ColumnIndex] == 'D';
+        public bool IsWall(Coordinate coordinate) => mapArray[coordinate.RowIndex, coordinate.ColumnIndex] == '#';
 
-        public bool IsDoor(int y, int x)
-        {
-            if (mapArray[y, x] == 'D') { return true; }
-            else { return false; }
-        }
     }
 }

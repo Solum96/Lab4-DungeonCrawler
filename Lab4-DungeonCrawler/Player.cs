@@ -2,12 +2,12 @@
 {
     internal class Player
     {
-        public static int stepCounter { get; set; }
+        public int stepCounter { get; set; }
         public Player()
         {
         }
 
-        public static void MovePlayer(char[,] mapArray, int y, int x, Monster monster)
+        public void MovePlayer(char[,] mapArray, int y, int x, Monster monster)
         {
             int rowIndex = 0;
             int columnIndex = 0;

@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace Lab4_DungeonCrawler
 {
-    class Program
+    partial class Program
     {
         static void Main(string[] args)
         {
             Player player = new Player();
             Monster monster = new Monster(3, 'M'); //DEVNOTE: temp monster
+            Door doorOne = new Door();
 
-            while (Player.stepCounter <= 99)
+            while (player.StepCounter <= 99)
             {
-                Console.WriteLine("Steps: " + Player.stepCounter);
+                Console.WriteLine("Steps: " + player.StepCounter);
                 for (int row = 0; row < Map.mapArray.GetLength(0); row++)
                 {
                     for (int column = 0; column < Map.mapArray.GetLength(1); column++)
@@ -28,19 +29,19 @@ namespace Lab4_DungeonCrawler
                 switch (move)
                 {
                     case 'w':
-                        Player.MovePlayer(Map.mapArray, -1, 0, monster);
+                        player.MovePlayer(Map.mapArray, -1, 0, monster);
                         break;
 
                     case 'a':
-                        Player.MovePlayer(Map.mapArray, 0, -1, monster);
+                        player.MovePlayer(Map.mapArray, 0, -1, monster);
                         break;
 
                     case 's':
-                        Player.MovePlayer(Map.mapArray, 1, 0, monster);
+                        player.MovePlayer(Map.mapArray, 1, 0, monster);
                         break;
 
                     case 'd':
-                        Player.MovePlayer(Map.mapArray, 0, 1, monster);
+                        player.MovePlayer(Map.mapArray, 0, 1, monster);
                         break;
 
                     default:

@@ -1,6 +1,6 @@
 ﻿namespace Lab4_DungeonCrawler
 {
-    internal class Monster
+    public class Monster : GameObject
     {
         public int Damage { get; private set; }
         public char Name { get; private set; }

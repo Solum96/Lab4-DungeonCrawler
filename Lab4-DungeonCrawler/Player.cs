@@ -10,28 +10,29 @@
         public Player(Map map)
         {
             Map = map;
-            FindStartLocation();
+            Location = map.CurrentPlayerLocation;
         }
 
         public void MovePlayer(MoveDelta moveDelta, Monster monster)
         {
-            
+            Coordinate futureLocation = new Coordinate { RowIndex = this.Location.RowIndex + moveDelta.DeltaY, ColumnIndex = this.Location.ColumnIndex + moveDelta.DeltaX };
 
-            if(Map.IsDoor(this.Location.RowIndex + y, this.Location.ColumnIndex + x) && this.HasKey)
+            if (Map.IsDoor(futureLocation) && this.HasKey)
             {
-                
+                this.Location = futureLocation;
+                return;
             }
 
-            if (Map.IsMonster(rowIndex + y, columnIndex + x))
+            if (Map.IsMonster(futureLocation))
             {
                 StepCounter += monster.Damage;
+                this.Location = futureLocation;
+                return;
             }
 
-            if (mapArray[rowIndex + y, columnIndex + x] != '#')
+            if (Map.IsWall(futureLocation))
             {
-                mapArray[rowIndex, columnIndex] = '-';
-                mapArray[rowIndex + y, columnIndex + x] = '@';
-                StepCounter++;
+                return;
             }
         }
     }

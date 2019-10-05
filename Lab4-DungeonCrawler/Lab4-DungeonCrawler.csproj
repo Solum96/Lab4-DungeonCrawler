@@ -43,11 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coordinate.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IObjectStatus.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Monster.cs" />
+    <Compile Include="MoveDelta.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

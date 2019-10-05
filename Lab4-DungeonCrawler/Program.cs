@@ -12,10 +12,11 @@ namespace Lab4_DungeonCrawler
         {
             Player player = new Player();
             Monster monster = new Monster(3, 'M'); //DEVNOTE: temp monster
+            Door doorOne = new Door();
 
-            while (player.stepCounter <= 99)
+            while (player.StepCounter <= 99)
             {
-                Console.WriteLine("Steps: " + player.stepCounter);
+                Console.WriteLine("Steps: " + player.StepCounter);
                 for (int row = 0; row < Map.mapArray.GetLength(0); row++)
                 {
                     for (int column = 0; column < Map.mapArray.GetLength(1); column++)

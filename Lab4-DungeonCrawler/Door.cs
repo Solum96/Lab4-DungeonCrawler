@@ -6,7 +6,9 @@ namespace Lab4_DungeonCrawler
     {
         public Door()
         {
-            this.Color = DifferentColors[1];
+            
         }
+        
+        
     }
 }

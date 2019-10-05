@@ -1,39 +1,37 @@
 ﻿namespace Lab4_DungeonCrawler
 {
-    internal class Player
+    public class Player
     {
-        public int stepCounter { get; set; }
-        public Player()
+        public int StepCounter { get; set; }
+        public bool HasKey { get; set; } = false;
+        public Coordinate Location { get; set; } = new Coordinate();
+        private Map Map { get; set; }
+
+        public Player(Map map)
         {
+            Map = map;
+            FindStartLocation();
         }
 
-        public void MovePlayer(char[,] mapArray, int y, int x, Monster monster)
+        public void MovePlayer(MoveDelta moveDelta, Monster monster)
         {
-            int rowIndex = 0;
-            int columnIndex = 0;
-            for (int i = 0; i < mapArray.GetLength(0); i++)
+            
+
+            if(Map.IsDoor(this.Location.RowIndex + y, this.Location.ColumnIndex + x) && this.HasKey)
             {
-                for (int j = 0; j < mapArray.GetLength(1); j++)
-                {
-                    if (mapArray[i, j].Equals('@'))
-                    {
-                        rowIndex = i;
-                        columnIndex = j;
-                        break;
-                    }
-                }
+                
             }
 
-            if (Map.IsMonster(rowIndex + y, columnIndex + x) == true)
+            if (Map.IsMonster(rowIndex + y, columnIndex + x))
             {
-                stepCounter += monster.Damage; 
+                StepCounter += monster.Damage;
             }
 
             if (mapArray[rowIndex + y, columnIndex + x] != '#')
             {
                 mapArray[rowIndex, columnIndex] = '-';
                 mapArray[rowIndex + y, columnIndex + x] = '@';
-                stepCounter++;
+                StepCounter++;
             }
         }
     }

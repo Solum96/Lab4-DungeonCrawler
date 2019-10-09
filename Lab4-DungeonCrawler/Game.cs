@@ -13,7 +13,7 @@ namespace Lab4_DungeonCrawler
             Player = new Player(Map, Map.CurrentPlayerLocation);
         }
         private DungeonMap Map { get; set; }
-        private Player Player { get; set; }
+        public static Player Player { get; set; }
 
         private IMapRender Renderer { get; set; } = new TextMapRenderer(); // Will be injected through DI in the future! ;)
         

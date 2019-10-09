@@ -10,7 +10,7 @@ namespace Lab4_DungeonCrawler.Rendering
             {
                 for (int y = 0; y < map.MapSize.Height; y++)
                 {
-                    Console.Write(map.MapArray[x, y].Visual);
+                    Console.Write(map.MapArray[y, x].Visual);
                 }
                 Console.WriteLine();
             }

@@ -19,11 +19,11 @@ namespace Lab4_DungeonCrawler.GameObjects
 
             if (Map.IsDoor(futureLocation) && this.HasKey)
             {
-                Map.MovePlayerInMap(Location, futureLocation);
                 StepCounter++;
-                Location = futureLocation;
                 HasKey = false;
                 Map.GenerateMap(Map.MapSize);
+                
+                //Map.MovePlayerInMap(Location, futureLocation);
                 return "Used key on door.\r\nEntering new room.";
             }
 
@@ -40,6 +40,16 @@ namespace Lab4_DungeonCrawler.GameObjects
 
                 Location = futureLocation;
                 return $"Battle ensues! You lost (as always), and got punished with {damage} steps.";
+            }
+
+            if (Map.IsTrap(futureLocation))
+            {
+                var trapDamage = (Map.GetGameObjectAt(futureLocation) as Trap).TrapDamage;
+                StepCounter += trapDamage;
+                Map.MovePlayerInMap(Location, futureLocation);
+
+                Location = futureLocation;
+                return $"Your foot gets impaled by a spike. Ouch. You'r punished with {trapDamage} steps.";
             }
 
             if (Map.IsPrize(futureLocation))

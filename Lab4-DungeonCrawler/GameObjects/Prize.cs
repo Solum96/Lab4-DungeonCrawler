@@ -8,7 +8,7 @@ namespace Lab4_DungeonCrawler.GameObjects
         {
             Value = value;
         }
-        public override char Visual { get; set; } = '-';
+        public override char Visual { get; set; } = 'P';
         public int Value { get; set; }
 
 

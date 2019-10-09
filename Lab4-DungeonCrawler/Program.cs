@@ -10,6 +10,12 @@ namespace Lab4_DungeonCrawler
     {
         static void Main(string[] args)
         {
+            // Hi-Score!
+            // Mathias - 32
+            // Alex - 15
+            // Nils - 21
+            // Wille - 
+            // Charlotte - 
             var game = new Game();
             game.RunGame();
         }

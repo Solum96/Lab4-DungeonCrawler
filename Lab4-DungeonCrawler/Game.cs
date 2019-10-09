@@ -49,6 +49,9 @@ namespace Lab4_DungeonCrawler
                 }
                 Console.Clear();
             }
+            Console.WriteLine("Congratulations, you won!");
+            Console.WriteLine($"You made it in {Player.StepCounter} steps!\nWell done!");
+            Console.ReadKey(true);
         }
     }
 }

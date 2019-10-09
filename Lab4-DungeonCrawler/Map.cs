@@ -27,7 +27,7 @@ namespace Lab4_DungeonCrawler
 
         public GameObject GetGameObjectAt(Point location)
         {
-            return MapArray[location.X, location.Y];
+            return MapArray[location.Y, location.X];
         }
 
         public Point CurrentPlayerLocation { get; set; }
@@ -39,45 +39,45 @@ namespace Lab4_DungeonCrawler
             NumberOfLevels++;
             var random = new Random();
 
-            MapArray = new GameObject[size.Width, size.Height];
+            MapArray = new GameObject[size.Height, size.Width];
             for (int x = 0; x < size.Width; x++)
             {
                 for (int y = 0; y < size.Height; y++)
                 {
                     if (x == 0 || y == 0 || x == size.Width - 1 || y == size.Height - 1)
                     {
-                        MapArray[x, y] = new Wall(this, new Point(x, y));
+                        MapArray[y, x] = new Wall(this, new Point(x, y));
                     }
                     else
                     {
-                        MapArray[x, y] = new Floor(this, new Point(x, y));
+                        MapArray[y, x] = new Floor(this, new Point(x, y));
                     }
                 }
             }
             for (int i = 0; i < NumberOfDoors; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
-                MapArray[location.X, location.Y] = new Door(this, location);
+                MapArray[location.Y, location.X] = new Door(this, location);
             }
             for (int i = 0; i < NumberOfMonsters; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
-                MapArray[location.X, location.Y] = new Monster(random.Next(5, 10), this, location);
+                MapArray[location.Y, location.X] = new Monster(random.Next(5, 10), this, location);
             }
             for (int i = 0; i < NumberOfKeys; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
-                MapArray[location.X, location.Y] = new Key(this, location);
+                MapArray[location.Y, location.X] = new Key(this, location);
             }
             for (int i = 0; i < NumberOfTraps; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
-                MapArray[location.X, location.Y] = new Trap(random.Next(2, 5), this, location);
+                MapArray[location.Y, location.X] = new Trap(random.Next(2, 5), this, location);
             }
             for (int i = 0; i < NumberOfPrizes; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
-                MapArray[location.X, location.Y] = new Prize(random.Next(5, 10), this, location);
+                MapArray[location.Y, location.X] = new Prize(random.Next(5, 10), this, location);
             }
             var newPosition = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
 
@@ -85,22 +85,23 @@ namespace Lab4_DungeonCrawler
             {
                 newPosition = new Point(random.Next(1, size.Width - 2));
             }
-
-            MapArray[newPosition.X, newPosition.Y] = new Player(this, newPosition);
+            newPosition = new Point(3, 5);
+            Game.Player = new Player(this, newPosition);
+            MapArray[newPosition.Y, newPosition.X] = Game.Player;
             CurrentPlayerLocation = newPosition;
             newPosition = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
         }
 
         public void MovePlayerInMap(Point currentLocation, Point futureLocation)
         {
-            var player = MapArray[currentLocation.X, currentLocation.Y];
+            var player = MapArray[currentLocation.Y, currentLocation.X];
             ResetAtLocation(currentLocation);
-            MapArray[futureLocation.X, futureLocation.Y] = player; // TODO: returnera player och sätt instancierad player = return player
+            MapArray[futureLocation.Y, futureLocation.X] = player; // TODO: returnera player och sätt instancierad player = return player
         }
 
         public void ResetAtLocation(Point point)
         {
-            MapArray[point.X, point.Y] = new Floor(this, point);
+            MapArray[point.Y, point.X] = new Floor(this, point);
         }
 
         public bool IsMonster(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Monster);

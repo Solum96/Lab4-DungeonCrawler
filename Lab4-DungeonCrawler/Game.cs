@@ -22,6 +22,8 @@ namespace Lab4_DungeonCrawler
             while (Map.NumberOfLevels <= 3)
             {
                 Console.WriteLine("Steps: " + Player.StepCounter);
+                if (Player.HasKey) { Console.WriteLine("You have a key."); }
+                else { Console.WriteLine("You don't have a key."); }
                 Renderer.RenderMap(Map);
                 char move = Console.ReadKey().KeyChar;
                 switch (move)

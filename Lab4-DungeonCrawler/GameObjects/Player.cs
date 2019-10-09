@@ -5,7 +5,7 @@ namespace Lab4_DungeonCrawler.GameObjects
     public class Player : GameObject
     {
         public override char Visual { get; set; } = '@';
-        public int StepCounter { get; set; } = 0;
+        public static int StepCounter { get; set; } = 0;
         public bool HasKey { get; set; } = false;
 
         public Player(DungeonMap map, Point location):base(map, location)

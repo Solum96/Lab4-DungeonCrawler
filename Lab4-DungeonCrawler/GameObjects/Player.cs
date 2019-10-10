@@ -25,7 +25,6 @@ namespace Lab4_DungeonCrawler.GameObjects
                 MultiKey.UsesLeft--;
                 if (MultiKey.UsesLeft == 0) { HasMultiKey = false; }
                 Map.GenerateMap(Map.MapSize);
-                //Map.MovePlayerInMap(Location, futureLocation);
                 return "Used key on door.\r\nEntering new room.";
             }
 

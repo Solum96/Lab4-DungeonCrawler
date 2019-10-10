@@ -17,16 +17,21 @@ namespace Lab4_DungeonCrawler
         private DungeonMap Map { get; set; }
         public static Player Player { get; set; }
 
-        private IMapRender Renderer { get; set; } = new TextMapRenderer(); // Will be injected through DI in the future! ;)
+        private IMapRender Renderer { get; set; } = new TextMapRenderer(); // Will be injected through DI in the future!
         
         public void RunGame()
         {
             while (Map.NumberOfLevels <= 3)
             {
                 Console.WriteLine("Steps: " + Player.StepCounter);
+
                 if (Player.HasKey) { Console.WriteLine("You have a key."); }
                 else { Console.WriteLine("You don't have a key."); }
+                if (Player.HasMultiKey) { Console.WriteLine($"You have a multikey with {MultiKey.UsesLeft} uses."); }
+                else { Console.WriteLine("You don't have a multikey."); }
+
                 Renderer.RenderMap(Map);
+
                 char move = Console.ReadKey().KeyChar;
                 switch (move)
                 {
@@ -51,6 +56,7 @@ namespace Lab4_DungeonCrawler
                 }
                 Console.Clear();
             }
+            // End screen
             Console.WriteLine("Congratulations, you won!");
             Console.WriteLine($"You made it in {Player.StepCounter} steps!\nWell done!");
             Console.ReadKey(true);

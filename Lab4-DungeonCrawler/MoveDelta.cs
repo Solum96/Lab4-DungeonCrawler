@@ -4,6 +4,7 @@
     {
         private int deltaX = 0;
         private int deltaY = 0;
+        // Movement values. Getting and setting with a shorthand.
         public int DeltaX
         {
             get { return deltaX; }

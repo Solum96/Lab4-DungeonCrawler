@@ -59,11 +59,19 @@ namespace Lab4_DungeonCrawler
             for (int i = 0; i < NumberOfDoors; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                while (GetGameObjectAt(location).GetType() != typeof(Floor))
+                {
+                    location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                }
                 MapArray[location.Y, location.X] = new Door(this, location);
             }
             for (int i = 0; i < NumberOfMonsters; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                while (GetGameObjectAt(location).GetType() != typeof(Floor))
+                {
+                    location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                }
                 MapArray[location.Y, location.X] = new Monster(random.Next(5, 10), this, location);
             }
             if (NumberOfMultiKeys == 1)
@@ -71,6 +79,10 @@ namespace Lab4_DungeonCrawler
                 for (int i = 0; i < NumberOfMultiKeys; i++)
                 {
                     var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                    while (GetGameObjectAt(location).GetType() != typeof(Floor))
+                    {
+                        location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                    }
                     MapArray[location.Y, location.X] = new MultiKey(this, location);
                 }
             }
@@ -79,17 +91,29 @@ namespace Lab4_DungeonCrawler
                 for (int i = 0; i < NumberOfKeys; i++)
                 {
                     var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                    while (GetGameObjectAt(location).GetType() != typeof(Floor))
+                    {
+                        location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                    }
                     MapArray[location.Y, location.X] = new Key(this, location);
                 }
             }
             for (int i = 0; i < NumberOfTraps; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                while (GetGameObjectAt(location).GetType() != typeof(Floor))
+                {
+                    location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                }
                 MapArray[location.Y, location.X] = new Trap(random.Next(2, 5), this, location);
             }
             for (int i = 0; i < NumberOfPrizes; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                while (GetGameObjectAt(location).GetType() != typeof(Floor))
+                {
+                    location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                }
                 MapArray[location.Y, location.X] = new Prize(random.Next(5, 10), this, location);
             }
             var newPosition = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));

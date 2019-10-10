@@ -7,7 +7,7 @@ namespace Lab4_DungeonCrawler.GameObjects
         public override char Visual { get; set; } = '@';
         public static int StepCounter { get; set; } = 0;
         public bool HasKey { get; set; } = false;
-        public bool HasMultiKey { get; set; } = false;
+        public static bool HasMultiKey { get; set; } = false;
 
         public Player(DungeonMap map, Point location):base(map, location)
         {
@@ -18,12 +18,12 @@ namespace Lab4_DungeonCrawler.GameObjects
         {
             Point futureLocation = new Point (Location.X + moveDelta.DeltaX, Location.Y + moveDelta.DeltaY);
 
-            if (Map.IsDoor(futureLocation) && this.HasKey || Map.IsDoor(futureLocation) && this.HasMultiKey && MultiKey.UsesLeft > 0)
+            if ((Map.IsDoor(futureLocation) && this.HasKey) || (Map.IsDoor(futureLocation) && HasMultiKey && MultiKey.UsesLeft > 0))
             {
                 StepCounter++;
                 HasKey = false;
-                if (MultiKey.UsesLeft == 0) { HasMultiKey = false; }
                 MultiKey.UsesLeft--;
+                if (MultiKey.UsesLeft == 0) { HasMultiKey = false; }
                 Map.GenerateMap(Map.MapSize);
                 //Map.MovePlayerInMap(Location, futureLocation);
                 return "Used key on door.\r\nEntering new room.";
@@ -76,6 +76,14 @@ namespace Lab4_DungeonCrawler.GameObjects
                 StepCounter++;
                 Location = futureLocation;
                 return "You found a key! Well done!";
+            }
+            if (Map.IsMultiKey(futureLocation))
+            {
+                Map.MovePlayerInMap(Location, futureLocation);
+                HasMultiKey = true;
+                StepCounter++;
+                Location = futureLocation;
+                return "You found a multikey! Well done!";
             }
             Map.MovePlayerInMap(Location, futureLocation);
             Location = futureLocation;

@@ -13,7 +13,7 @@ namespace Lab4_DungeonCrawler
             // Hi-Score!
             // Mathias - 32
             // Alex - 15
-            // Nils - 21
+            // Nils - 15
 
             var game = new Game();
             game.RunGame();

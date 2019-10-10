@@ -101,7 +101,7 @@ namespace Lab4_DungeonCrawler
         {
             var player = MapArray[currentLocation.X, currentLocation.Y];
             ResetAtLocation(currentLocation);
-            MapArray[futureLocation.X, futureLocation.Y] = player; // TODO: returnera player och sätt instancierad player = return player
+            MapArray[futureLocation.X, futureLocation.Y] = player;
         }
 
         public void ResetAtLocation(Point point)

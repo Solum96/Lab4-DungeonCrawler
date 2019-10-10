@@ -56,6 +56,7 @@ namespace Lab4_DungeonCrawler
                     }
                 }
             }
+            // Generating and placing doors.
             for (int i = 0; i < NumberOfDoors; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
@@ -65,6 +66,7 @@ namespace Lab4_DungeonCrawler
                 }
                 MapArray[location.Y, location.X] = new Door(this, location);
             }
+            // Generating and placing monsters.
             for (int i = 0; i < NumberOfMonsters; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
@@ -74,6 +76,7 @@ namespace Lab4_DungeonCrawler
                 }
                 MapArray[location.Y, location.X] = new Monster(random.Next(5, 10), this, location);
             }
+            // Generating and placing multikeys.
             if (NumberOfMultiKeys == 1)
             {
                 for (int i = 0; i < NumberOfMultiKeys; i++)
@@ -86,6 +89,7 @@ namespace Lab4_DungeonCrawler
                     MapArray[location.Y, location.X] = new MultiKey(this, location);
                 }
             }
+            // Generating and placing keys.
             if (NumberOfMultiKeys == 0)
             {
                 for (int i = 0; i < NumberOfKeys; i++)
@@ -98,6 +102,7 @@ namespace Lab4_DungeonCrawler
                     MapArray[location.Y, location.X] = new Key(this, location);
                 }
             }
+            // Generating and placing traps.
             for (int i = 0; i < NumberOfTraps; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
@@ -105,8 +110,9 @@ namespace Lab4_DungeonCrawler
                 {
                     location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
                 }
-                MapArray[location.Y, location.X] = new Trap(random.Next(2, 5), this, location);
+                MapArray[location.Y, location.X] = new Trap(random.Next(1, 5), this, location);
             }
+            // Generating and placing prizes.
             for (int i = 0; i < NumberOfPrizes; i++)
             {
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
@@ -116,6 +122,8 @@ namespace Lab4_DungeonCrawler
                 }
                 MapArray[location.Y, location.X] = new Prize(random.Next(5, 10), this, location);
             }
+
+            // Generating and placing player.
             var newPosition = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
 
             while (GetGameObjectAt(newPosition).GetType() != typeof(Floor))
@@ -133,7 +141,7 @@ namespace Lab4_DungeonCrawler
         {
             var player = MapArray[currentLocation.Y, currentLocation.X];
             ResetAtLocation(currentLocation);
-            MapArray[futureLocation.Y, futureLocation.X] = player; // TODO: returnera player och sätt instancierad player = return player
+            MapArray[futureLocation.Y, futureLocation.X] = player;
         }
 
         public void ResetAtLocation(Point point)
@@ -141,13 +149,12 @@ namespace Lab4_DungeonCrawler
             MapArray[point.Y, point.X] = new Floor(this, point);
         }
 
-        public bool IsMonster(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Monster);
+        public bool IsDamageDealer(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Monster) || GetGameObjectAt(Point).GetType() == typeof(Trap);
         public bool IsDoor(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Door);
         public bool IsWall(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Wall);
         public bool IsFloor(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Floor);
         public bool IsKey(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Key);
         public bool IsMultiKey(Point Point) => GetGameObjectAt(Point).GetType() == typeof(MultiKey);
-        public bool IsTrap(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Trap);
         public bool IsPrize(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Prize);
 
     }

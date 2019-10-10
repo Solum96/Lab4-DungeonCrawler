@@ -52,6 +52,7 @@
     <Compile Include="GameObjects\Prize.cs" />
     <Compile Include="GameObjects\Wall.cs" />
     <Compile Include="GameObjects\Key.cs" />
+    <Compile Include="IDamageDealer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Rendering\IMapRender.cs" />
     <Compile Include="Rendering\GdiMapRenderer.cs" />

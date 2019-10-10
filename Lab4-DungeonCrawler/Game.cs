@@ -5,7 +5,7 @@ using Lab4_DungeonCrawler.GameObjects;
 
 namespace Lab4_DungeonCrawler
 {
-    public class Game
+    public partial class Game
     {
         public Game()
         {
@@ -18,8 +18,8 @@ namespace Lab4_DungeonCrawler
         public static Player Player { get; set; }
         MoveDelta moveDelta = new MoveDelta();
 
-        private IMapRender Renderer { get; set; } = new TextMapRenderer(); // Will be injected through DI in the future!
-        
+        private IMapRender Renderer { get; set; } = new TextMapRenderer(); // Will be injected through DI in the future.
+
         public void RunGame()
         {
             while (Map.NumberOfLevels <= 3)
@@ -28,7 +28,7 @@ namespace Lab4_DungeonCrawler
 
                 if (Player.HasKey) { Console.WriteLine("You have a key."); }
                 else { Console.WriteLine("You don't have a key."); }
-                if (Player.HasMultiKey) { Console.WriteLine($"You have a multikey with {Player.PlayerMultiKey.UsesLeft} uses."); }
+                if (Player.HasMultiKey) { Console.WriteLine($"You have a multikey with {Player.MultiKey.UsesLeft} uses."); }
                 else { Console.WriteLine("You don't have a multikey."); }
 
                 Renderer.RenderMap(Map);
@@ -45,7 +45,7 @@ namespace Lab4_DungeonCrawler
                         break;
 
                     case 's':
-                        moveDelta =  new MoveDelta() { DeltaY = 1, DeltaX = 0 };
+                        moveDelta = new MoveDelta() { DeltaY = 1, DeltaX = 0 };
                         break;
 
                     case 'd':
@@ -59,39 +59,28 @@ namespace Lab4_DungeonCrawler
 
                 Point futureLocation = new Point(Player.Location.X + moveDelta.DeltaY, Player.Location.Y + moveDelta.DeltaX);
 
-                if ((Map.IsDoor(futureLocation) && Player.HasKey) || (Map.IsDoor(futureLocation) && Player.HasMultiKey && Player.PlayerMultiKey.UsesLeft > 0))
+                if ((Map.IsDoor(futureLocation) && Player.HasKey) || (Map.IsDoor(futureLocation) && Player.HasMultiKey && Player.MultiKey.UsesLeft > 0))
                 {
                     Player.StepCounter++;
                     Player.HasKey = false;
-                    Player.PlayerMultiKey.UsesLeft--;
-                    if (Player.PlayerMultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
+                    Player.MultiKey.UsesLeft--;
+                    if (Player.MultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
                     Map.GenerateMap(Map.MapSize);
-                    // return "Used key on door.\r\nEntering new room.";
+                    // Used key on door. Entering new room.
                 }
 
                 if (Map.IsDoor(futureLocation) && !Player.HasKey)
                 {
-                    //return "You don't have a key.";
+                    // You don't have a key.
                 }
 
-                if (Map.IsMonster(futureLocation))
+                if (Map.IsDamageDealer(futureLocation))
                 {
-                    var damage = (Map.GetGameObjectAt(futureLocation) as Monster).Damage;
-                    Player.StepCounter += damage;
+                    (Map.GetGameObjectAt(futureLocation) as IDamageDealer).DoDamage();
+
                     Map.MovePlayerInMap(Player.Location, futureLocation);
-
                     Player.Location = futureLocation;
-                    //return $"Battle ensues! You lost (as always), and got punished with {damage} steps.";
-                }
-
-                if (Map.IsTrap(futureLocation))
-                {
-                    var trapDamage = (Map.GetGameObjectAt(futureLocation) as Trap).TrapDamage;
-                    Player.StepCounter += trapDamage;
-                    Map.MovePlayerInMap(Player.Location, futureLocation);
-
-                    Player.Location = futureLocation;
-                    //return $"Your foot gets impaled by a spike. Ouch. You'r punished with {trapDamage} steps.";
+                    // Player took damage from either a monster or a trap depending on object at futureLocation.
                 }
 
                 if (Map.IsPrize(futureLocation))
@@ -101,12 +90,12 @@ namespace Lab4_DungeonCrawler
                     Player.StepCounter = Player.StepCounter < 0 ? 0 : Player.StepCounter;
                     Map.MovePlayerInMap(Player.Location, futureLocation);
                     Player.Location = futureLocation;
-                    //return $"Battle ensues! You lost (as always), and got punished with {value} steps.";
+                    // Player found prize.
                 }
 
                 if (Map.IsWall(futureLocation))
                 {
-                    //return "Stop banging your head against the wall. It's not helping anyone.";
+                    // Player can't move through walls.
                 }
 
                 if (Map.IsKey(futureLocation))
@@ -115,23 +104,23 @@ namespace Lab4_DungeonCrawler
                     Player.HasKey = true;
                     Player.StepCounter++;
                     Player.Location = futureLocation;
-                    //return "You found a key! Well done!";
+                    // Player found a key.
                 }
                 if (Map.IsMultiKey(futureLocation))
                 {
                     Map.MovePlayerInMap(Player.Location, futureLocation);
                     Player.HasMultiKey = true;
-                    Player.PlayerMultiKey = new MultiKey(Map, Player.Location);
+                    Player.MultiKey = new MultiKey(Map, Player.Location);
                     Player.StepCounter++;
                     Player.Location = futureLocation;
-                    //return "You found a multikey! Well done!";
+                    // Player found a multikey.
                 }
                 if (Map.IsFloor(futureLocation))
                 {
                     Map.MovePlayerInMap(Player.Location, futureLocation);
                     Player.Location = futureLocation;
                     Player.StepCounter++;
-                    //return "";
+                    // Moves player.
                 }
             }
             // End screen

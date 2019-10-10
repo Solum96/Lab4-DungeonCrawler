@@ -11,7 +11,7 @@ namespace Lab4_DungeonCrawler
         {
             Random random = new Random();
             int randomNumber = random.Next(0, 2);
-            Map = new DungeonMap(10, 1, 0, 8, 1, 7, new Size(20, 15));
+            Map = new DungeonMap(10, randomNumber, 1, 8, 1, 7, new Size(20, 15));
             Player = new Player(Map, Map.CurrentPlayerLocation);
         }
         private DungeonMap Map { get; set; }
@@ -63,8 +63,11 @@ namespace Lab4_DungeonCrawler
                 {
                     Player.StepCounter++;
                     Player.HasKey = false;
-                    Player.MultiKey.UsesLeft--;
-                    if (Player.MultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
+                    if (Player.HasMultiKey)
+                    {
+                        Player.MultiKey.UsesLeft--;
+                        if (Player.MultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
+                    }
                     Map.GenerateMap(Map.MapSize);
                     // Used key on door. Entering new room.
                 }

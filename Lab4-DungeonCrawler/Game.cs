@@ -9,7 +9,9 @@ namespace Lab4_DungeonCrawler
     {
         public Game()
         {
-            Map = new DungeonMap(5, 1, 4, 1, 5, new Size(20, 15));
+            Random random = new Random();
+            int randomNumber = random.Next(0, 2);
+            Map = new DungeonMap(10, randomNumber, 1, 8, 1, 7, new Size(20, 15));
             Player = new Player(Map, Map.CurrentPlayerLocation);
         }
         private DungeonMap Map { get; set; }

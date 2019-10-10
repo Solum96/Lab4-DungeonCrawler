@@ -6,9 +6,10 @@ namespace Lab4_DungeonCrawler
 {
     public class DungeonMap
     {
-        public DungeonMap(int numberOfMonsters, int numberOfKeys, int numberOfTraps, int numberOfDoors, int numberOfPrizes, Size size)
+        public DungeonMap(int numberOfMonsters, int numberOfMultiKeys, int numberOfKeys, int numberOfTraps, int numberOfDoors, int numberOfPrizes, Size size)
         {
             NumberOfMonsters = numberOfMonsters;
+            NumberOfMultiKeys = numberOfMultiKeys;
             NumberOfKeys = numberOfKeys;
             NumberOfTraps = numberOfTraps;
             NumberOfDoors = numberOfDoors;
@@ -18,6 +19,7 @@ namespace Lab4_DungeonCrawler
         }
 
         private int NumberOfMonsters { get; set; }
+        private int NumberOfMultiKeys { get; set; }
         private int NumberOfKeys { get; set; }
         private int NumberOfTraps { get; set; }
         private int NumberOfDoors { get; set; }
@@ -64,10 +66,21 @@ namespace Lab4_DungeonCrawler
                 var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
                 MapArray[location.Y, location.X] = new Monster(random.Next(5, 10), this, location);
             }
-            for (int i = 0; i < NumberOfKeys; i++)
+            if (NumberOfMultiKeys == 1)
             {
-                var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
-                MapArray[location.Y, location.X] = new Key(this, location);
+                for (int i = 0; i < NumberOfMultiKeys; i++)
+                {
+                    var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                    MapArray[location.Y, location.X] = new MultiKey(this, location);
+                }
+            }
+            if (NumberOfMultiKeys == 0)
+            {
+                for (int i = 0; i < NumberOfKeys; i++)
+                {
+                    var location = new Point(random.Next(1, size.Width - 2), random.Next(1, size.Height - 2));
+                    MapArray[location.Y, location.X] = new Key(this, location);
+                }
             }
             for (int i = 0; i < NumberOfTraps; i++)
             {
@@ -108,6 +121,7 @@ namespace Lab4_DungeonCrawler
         public bool IsDoor(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Door);
         public bool IsWall(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Wall);
         public bool IsKey(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Key);
+        public bool IsMultiKey(Point Point) => GetGameObjectAt(Point).GetType() == typeof(MultiKey);
         public bool IsTrap(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Trap);
         public bool IsPrize(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Prize);
 

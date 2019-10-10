@@ -144,6 +144,7 @@ namespace Lab4_DungeonCrawler
         public bool IsMonster(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Monster);
         public bool IsDoor(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Door);
         public bool IsWall(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Wall);
+        public bool IsFloor(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Floor);
         public bool IsKey(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Key);
         public bool IsMultiKey(Point Point) => GetGameObjectAt(Point).GetType() == typeof(MultiKey);
         public bool IsTrap(Point Point) => GetGameObjectAt(Point).GetType() == typeof(Trap);

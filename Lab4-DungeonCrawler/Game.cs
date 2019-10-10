@@ -16,6 +16,7 @@ namespace Lab4_DungeonCrawler
         }
         private DungeonMap Map { get; set; }
         public static Player Player { get; set; }
+        MoveDelta moveDelta = new MoveDelta();
 
         private IMapRender Renderer { get; set; } = new TextMapRenderer(); // Will be injected through DI in the future!
         
@@ -35,26 +36,102 @@ namespace Lab4_DungeonCrawler
                 char move = Console.ReadKey().KeyChar;
                 switch (move)
                 {
-                    case 'a':
-                        Player.MovePlayer(new MoveDelta() { DeltaX = 0, DeltaY = -1 });
-                        break;
-
                     case 'w':
-                        Player.MovePlayer(new MoveDelta() { DeltaX = -1, DeltaY = 0 });
+                        moveDelta = new MoveDelta() { DeltaY = -1, DeltaX = 0 };
                         break;
 
-                    case 'd':
-                        Player.MovePlayer(new MoveDelta() { DeltaX = 0, DeltaY = 1 });
+                    case 'a':
+                        moveDelta = new MoveDelta() { DeltaY = 0, DeltaX = -1 };
                         break;
 
                     case 's':
-                        Player.MovePlayer(new MoveDelta() { DeltaX = 1, DeltaY = 0 });
+                        moveDelta =  new MoveDelta() { DeltaY = 1, DeltaX = 0 };
+                        break;
+
+                    case 'd':
+                        moveDelta = new MoveDelta() { DeltaY = 0, DeltaX = 1 };
                         break;
 
                     default:
                         break;
                 }
                 Console.Clear();
+
+                Point futureLocation = new Point(Player.Location.X + moveDelta.DeltaY, Player.Location.Y + moveDelta.DeltaX);
+
+                if ((Map.IsDoor(futureLocation) && Player.HasKey) || (Map.IsDoor(futureLocation) && Player.HasMultiKey && MultiKey.UsesLeft > 0))
+                {
+                    Player.StepCounter++;
+                    Player.HasKey = false;
+                    MultiKey.UsesLeft--;
+                    if (MultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
+                    Map.GenerateMap(Map.MapSize);
+                    // return "Used key on door.\r\nEntering new room.";
+                }
+
+                if (Map.IsDoor(futureLocation) && !Player.HasKey)
+                {
+                    //return "You don't have a key.";
+                }
+
+                if (Map.IsMonster(futureLocation))
+                {
+                    var damage = (Map.GetGameObjectAt(futureLocation) as Monster).Damage;
+                    Player.StepCounter += damage;
+                    Map.MovePlayerInMap(Player.Location, futureLocation);
+
+                    Player.Location = futureLocation;
+                    //return $"Battle ensues! You lost (as always), and got punished with {damage} steps.";
+                }
+
+                if (Map.IsTrap(futureLocation))
+                {
+                    var trapDamage = (Map.GetGameObjectAt(futureLocation) as Trap).TrapDamage;
+                    Player.StepCounter += trapDamage;
+                    Map.MovePlayerInMap(Player.Location, futureLocation);
+
+                    Player.Location = futureLocation;
+                    //return $"Your foot gets impaled by a spike. Ouch. You'r punished with {trapDamage} steps.";
+                }
+
+                if (Map.IsPrize(futureLocation))
+                {
+                    var value = (Map.GetGameObjectAt(futureLocation) as Prize).Value;
+                    Player.StepCounter -= value;
+                    Player.StepCounter = Player.StepCounter < 0 ? 0 : Player.StepCounter;
+                    Map.MovePlayerInMap(Player.Location, futureLocation);
+                    Player.Location = futureLocation;
+                    //return $"Battle ensues! You lost (as always), and got punished with {value} steps.";
+                }
+
+                if (Map.IsWall(futureLocation))
+                {
+                    //return "Stop banging your head against the wall. It's not helping anyone.";
+                }
+
+                if (Map.IsKey(futureLocation))
+                {
+                    Map.MovePlayerInMap(Player.Location, futureLocation);
+                    Player.HasKey = true;
+                    Player.StepCounter++;
+                    Player.Location = futureLocation;
+                    //return "You found a key! Well done!";
+                }
+                if (Map.IsMultiKey(futureLocation))
+                {
+                    Map.MovePlayerInMap(Player.Location, futureLocation);
+                    Player.HasMultiKey = true;
+                    Player.StepCounter++;
+                    Player.Location = futureLocation;
+                    //return "You found a multikey! Well done!";
+                }
+                if (Map.IsFloor(futureLocation))
+                {
+                    Map.MovePlayerInMap(Player.Location, futureLocation);
+                    Player.Location = futureLocation;
+                    Player.StepCounter++;
+                    //return "";
+                }
             }
             // End screen
             Console.WriteLine("Congratulations, you won!");

@@ -11,7 +11,7 @@ namespace Lab4_DungeonCrawler
         {
             Random random = new Random();
             int randomNumber = random.Next(0, 2);
-            Map = new DungeonMap(10, randomNumber, 1, 8, 1, 7, new Size(20, 15));
+            Map = new DungeonMap(10, 1, 0, 8, 1, 7, new Size(20, 15));
             Player = new Player(Map, Map.CurrentPlayerLocation);
         }
         private DungeonMap Map { get; set; }
@@ -28,7 +28,7 @@ namespace Lab4_DungeonCrawler
 
                 if (Player.HasKey) { Console.WriteLine("You have a key."); }
                 else { Console.WriteLine("You don't have a key."); }
-                if (Player.HasMultiKey) { Console.WriteLine($"You have a multikey with {MultiKey.UsesLeft} uses."); }
+                if (Player.HasMultiKey) { Console.WriteLine($"You have a multikey with {Player.PlayerMultiKey.UsesLeft} uses."); }
                 else { Console.WriteLine("You don't have a multikey."); }
 
                 Renderer.RenderMap(Map);
@@ -59,12 +59,12 @@ namespace Lab4_DungeonCrawler
 
                 Point futureLocation = new Point(Player.Location.X + moveDelta.DeltaY, Player.Location.Y + moveDelta.DeltaX);
 
-                if ((Map.IsDoor(futureLocation) && Player.HasKey) || (Map.IsDoor(futureLocation) && Player.HasMultiKey && MultiKey.UsesLeft > 0))
+                if ((Map.IsDoor(futureLocation) && Player.HasKey) || (Map.IsDoor(futureLocation) && Player.HasMultiKey && Player.PlayerMultiKey.UsesLeft > 0))
                 {
                     Player.StepCounter++;
                     Player.HasKey = false;
-                    MultiKey.UsesLeft--;
-                    if (MultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
+                    Player.PlayerMultiKey.UsesLeft--;
+                    if (Player.PlayerMultiKey.UsesLeft == 0) { Player.HasMultiKey = false; }
                     Map.GenerateMap(Map.MapSize);
                     // return "Used key on door.\r\nEntering new room.";
                 }
@@ -121,6 +121,7 @@ namespace Lab4_DungeonCrawler
                 {
                     Map.MovePlayerInMap(Player.Location, futureLocation);
                     Player.HasMultiKey = true;
+                    Player.PlayerMultiKey = new MultiKey(Map, Player.Location);
                     Player.StepCounter++;
                     Player.Location = futureLocation;
                     //return "You found a multikey! Well done!";

@@ -7,6 +7,6 @@ namespace Lab4_DungeonCrawler.GameObjects
         public MultiKey(DungeonMap map, Point location) : base(map, location) { }
 
         public override char Visual { get; set; } = 'K';
-        public static int UsesLeft { get; set; } = 2;
+        public int UsesLeft { get; set; } = 2;
     }
 }

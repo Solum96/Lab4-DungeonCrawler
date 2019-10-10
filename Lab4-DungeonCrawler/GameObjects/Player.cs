@@ -8,86 +8,15 @@ namespace Lab4_DungeonCrawler.GameObjects
         public static int StepCounter { get; set; } = 0;
         public bool HasKey { get; set; } = false;
         public static bool HasMultiKey { get; set; } = false;
+        public MultiKey PlayerMultiKey;
 
-        public Player(DungeonMap map, Point location):base(map, location)
+        public Player(DungeonMap map, Point location) : base(map, location)
         {
             Location = map.CurrentPlayerLocation;
-        }
-
-        public string MovePlayer(MoveDelta moveDelta)
-        {
-            Point futureLocation = new Point (Location.X + moveDelta.DeltaX, Location.Y + moveDelta.DeltaY);
-
-            if ((Map.IsDoor(futureLocation) && this.HasKey) || (Map.IsDoor(futureLocation) && HasMultiKey && MultiKey.UsesLeft > 0))
+            if (HasMultiKey)
             {
-                StepCounter++;
-                HasKey = false;
-                MultiKey.UsesLeft--;
-                if (MultiKey.UsesLeft == 0) { HasMultiKey = false; }
-                Map.GenerateMap(Map.MapSize);
-                return "Used key on door.\r\nEntering new room.";
+                this.PlayerMultiKey = Game.Player.PlayerMultiKey;
             }
-
-            if (Map.IsDoor(futureLocation) && !HasKey)
-            {
-                return "You don't have a key.";
-            }
-
-            if (Map.IsMonster(futureLocation))
-            {
-                var damage = (Map.GetGameObjectAt(futureLocation) as Monster).Damage;
-                StepCounter += damage;
-                Map.MovePlayerInMap(Location, futureLocation);
-
-                Location = futureLocation;
-                return $"Battle ensues! You lost (as always), and got punished with {damage} steps.";
-            }
-
-            if (Map.IsTrap(futureLocation))
-            {
-                var trapDamage = (Map.GetGameObjectAt(futureLocation) as Trap).TrapDamage;
-                StepCounter += trapDamage;
-                Map.MovePlayerInMap(Location, futureLocation);
-
-                Location = futureLocation;
-                return $"Your foot gets impaled by a spike. Ouch. You'r punished with {trapDamage} steps.";
-            }
-
-            if (Map.IsPrize(futureLocation))
-            {
-                var value = (Map.GetGameObjectAt(futureLocation) as Prize).Value;
-                StepCounter -= value;
-                StepCounter = StepCounter < 0 ? 0 : StepCounter;
-                Map.MovePlayerInMap(Location, futureLocation);
-                Location = futureLocation;
-                return $"Battle ensues! You lost (as always), and got punished with {value} steps.";
-            }
-
-            if (Map.IsWall(futureLocation))
-            {
-                return "Stop banging your head against the wall. It's not helping anyone.";
-            }
-
-            if (Map.IsKey(futureLocation))
-            {
-                Map.MovePlayerInMap(Location, futureLocation);
-                HasKey = true;
-                StepCounter++;
-                Location = futureLocation;
-                return "You found a key! Well done!";
-            }
-            if (Map.IsMultiKey(futureLocation))
-            {
-                Map.MovePlayerInMap(Location, futureLocation);
-                HasMultiKey = true;
-                StepCounter++;
-                Location = futureLocation;
-                return "You found a multikey! Well done!";
-            }
-            Map.MovePlayerInMap(Location, futureLocation);
-            Location = futureLocation;
-            StepCounter++;
-            return "";
         }
     }
 }

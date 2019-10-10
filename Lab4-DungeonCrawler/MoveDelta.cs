@@ -5,7 +5,7 @@
         private int deltaX = 0;
         private int deltaY = 0;
         // Movement values. Getting and setting with a shorthand.
-        public int DeltaX
+        public int DeltaY
         {
             get { return deltaX; }
             set
@@ -14,7 +14,7 @@
             }
         }
 
-        public int DeltaY
+        public int DeltaX
         {
             get { return deltaY; }
             set

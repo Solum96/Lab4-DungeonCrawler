@@ -10,6 +10,7 @@ namespace Lab4_DungeonCrawler.GameObjects
             Location = location;
             Map = map;
         }
+
         public virtual char Visual { get; set; }
         public Point Location { get; set; } = new Point();
         public DungeonMap Map { get; set; }
